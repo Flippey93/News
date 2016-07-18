@@ -30,12 +30,12 @@ public class SplashActivity extends AppCompatActivity {
                 boolean isfirst = (boolean) SpUtils.get(SplashActivity.this, Constants.IS_FIRST_IN, true);
                 if (isfirst) {
                     //如果是第一次进入就显示引导页
-                    SpUtils.put(SplashActivity.this, Constants.IS_FIRST_IN, true);
+                    SpUtils.put(SplashActivity.this, Constants.IS_FIRST_IN, false);
                     startActivity(new Intent(SplashActivity.this,GuideActivity.class));
                 }else {
-                    //进入主页
                     startActivity(new Intent(SplashActivity.this, MainActivity.class));
                 }
+                finish();
             }
         }, 2000);
     }
