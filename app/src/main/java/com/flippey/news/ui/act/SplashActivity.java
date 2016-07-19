@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
-import com.flippey.news.MainActivity;
 import com.flippey.news.R;
 import com.flippey.news.global.NewsApplication;
 import com.flippey.news.utils.Constants;

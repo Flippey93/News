@@ -1,7 +1,8 @@
-package com.flippey.news;
+package com.flippey.news.ui.act;
 
 import android.os.Bundle;
 
+import com.flippey.news.R;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
 

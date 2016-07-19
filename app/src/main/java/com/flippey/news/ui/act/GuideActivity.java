@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.flippey.news.MainActivity;
 import com.flippey.news.R;
 import com.flippey.news.ui.view.TransformPage;
 import com.flippey.news.utils.DensityUtil;
