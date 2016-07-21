@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.RadioGroup;
 
 import com.flippey.news.R;
+import com.flippey.news.ui.act.MainActivity;
 import com.flippey.news.ui.home.BasePage;
 import com.flippey.news.ui.home.FunctionPage;
 import com.flippey.news.ui.home.GoverPage;
@@ -56,6 +57,7 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
     }
     @OnRadioGroupCheckedChange(R.id.main_radio)
     public void onCheckedChanged(RadioGroup group, int checkedId) {
+        MenuFragment menuFragment = ((MainActivity) mContext).getMenuFragment();
         switch (checkedId) {
             case R.id.rb_function:   //首页  禁止侧滑
                 mViewPager.setCurrentItem(0, false);
@@ -64,10 +66,12 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
             case R.id.rb_gov_affairs:
                 mViewPager.setCurrentItem(2, false);
                 mSlidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+                menuFragment.setMeunType(MenuFragment.GOVER);
                 break;
             case R.id.rb_news_center:   //新闻中心
                 mViewPager.setCurrentItem(1, false);
                 mSlidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+                menuFragment.setMeunType(MenuFragment.NEWSCENTER);
                 break;
             case R.id.rb_setting:    //设置中心禁止侧滑
                 mViewPager.setCurrentItem(4, false);
@@ -76,6 +80,7 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
             case R.id.rb_smart_service:
                 mViewPager.setCurrentItem(3, false);
                 mSlidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+                menuFragment.setMeunType(MenuFragment.SMARTSERVICE);
                 break;
         }
     }

@@ -27,6 +27,7 @@ import butterknife.ButterKnife;
 public class MenuFragment extends BaseFragment implements AdapterView.OnItemClickListener {
 
 
+
     @BindView(R.id.tv_menu_classify)
     TextView mTvMenuClassify;
     @BindView(R.id.lv_menu_news_center)
@@ -36,8 +37,11 @@ public class MenuFragment extends BaseFragment implements AdapterView.OnItemClic
     @BindView(R.id.lv_menu_govaffairs)
     ListView mLvMenuGovaffairs;
     private MenuAdapter mNewsAdapter;
+    public static final int NEWSCENTER = 0;//新闻中心
+    public static final int SMARTSERVICE = 1;//智慧服务
+    public static final int GOVER = 2;//政务指南
 
-
+    private int mCurrentType = NEWSCENTER;
     @Override
     protected View creatView(LayoutInflater inflater) {
         View view = inflater.inflate(R.layout.layout_left_menu, null);
@@ -71,6 +75,38 @@ public class MenuFragment extends BaseFragment implements AdapterView.OnItemClic
         }
         //侧滑菜单关闭
         mSlidingMenu.toggle();
+    }
+
+    public void setMeunType(int type) {
+        mCurrentType = type;
+        mLvMenuNewsCenter.setVisibility(View.GONE);
+        mLvMenuGovaffairs.setVisibility(View.GONE);
+        mLvMenuSmartService.setVisibility(View.GONE);
+        switch (mCurrentType) {
+            case NEWSCENTER:
+                mLvMenuNewsCenter.setVisibility(View.VISIBLE);
+                mNewsAdapter = new MenuAdapter(mContext, mNewsCenter);
+                mLvMenuNewsCenter.setAdapter(mNewsAdapter);
+                break;
+            case SMARTSERVICE:
+                mLvMenuSmartService.setVisibility(View.VISIBLE);
+                List<String> smartService = new ArrayList<>();
+                for (int i = 0; i < 3; i++) {
+                    smartService.add("只会服务"+i);
+                }
+                MenuAdapter smartAdapter = new MenuAdapter(mContext, smartService);
+                mLvMenuSmartService.setAdapter(smartAdapter);
+                break;
+            case GOVER:
+                mLvMenuGovaffairs.setVisibility(View.VISIBLE);
+                List<String> gover = new ArrayList<>();
+                for (int i = 0; i < 3; i++) {
+                    gover.add("政府"+i);
+                }
+                MenuAdapter goverAdapter = new MenuAdapter(mContext, gover);
+                mLvMenuGovaffairs.setAdapter(goverAdapter);
+                break;
+        }
     }
 
     private class MenuAdapter extends BasicAdapter<String> {
