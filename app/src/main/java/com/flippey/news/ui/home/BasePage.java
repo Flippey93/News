@@ -10,6 +10,7 @@ import android.view.View;
 public abstract class BasePage {
     private View mView;
     public Context mContext;
+    public boolean isLoad = false;
 
     public BasePage(Context context) {
         this.mContext = context;

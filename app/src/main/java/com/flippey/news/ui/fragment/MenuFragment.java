@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -22,7 +23,7 @@ import butterknife.ButterKnife;
  * @ Author      Flippey
  * @ Creat Time  2016/7/19 18:56
  */
-public class MenuFragment extends BaseFragment {
+public class MenuFragment extends BaseFragment implements AdapterView.OnItemClickListener {
 
 
     @BindView(R.id.tv_menu_classify)
@@ -33,14 +34,14 @@ public class MenuFragment extends BaseFragment {
     ListView mLvMenuSmartService;
     @BindView(R.id.lv_menu_govaffairs)
     ListView mLvMenuGovaffairs;
-    private ListView mLvNewCenter;
+    private MenuAdapter mNewsAdapter;
 
 
     @Override
     protected View creatView(LayoutInflater inflater) {
         View view = inflater.inflate(R.layout.layout_left_menu, null);
         ButterKnife.bind(this, view);
-        mLvNewCenter = (ListView) view.findViewById(R.id.lv_menu_news_center);
+
         return view;
     }
 
@@ -51,15 +52,21 @@ public class MenuFragment extends BaseFragment {
 
     protected List<String> mNewsCenter = new ArrayList<>();
 
-
     public void initMenu(List<String> menuTitle) {
         mNewsCenter.clear();
         mNewsCenter.addAll(menuTitle);
-        MenuAdapter newsAdapter = new MenuAdapter(mContext, mNewsCenter);
-        for (int i = 0; i < mNewsCenter.size(); i++) {
-            System.out.println("nmenus"+mNewsCenter.get(i));
+        mNewsAdapter = new MenuAdapter(mContext, mNewsCenter);
+        mLvMenuNewsCenter.setAdapter(mNewsAdapter);
+        mLvMenuNewsCenter.setOnItemClickListener(this);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        switch (parent.getId()) {
+            case R.id.lv_menu_news_center:
+                mNewsAdapter.setClickItemPosition(position);
+                break;
         }
-        mLvNewCenter.setAdapter(newsAdapter);
     }
 
     private class MenuAdapter extends BasicAdapter<String> {

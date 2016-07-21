@@ -88,7 +88,10 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
     @Override
     public void onPageSelected(int position) {
         BasePage basePage = mHomePages.get(position);
-        basePage.initData();
+        //如果之前没有被加载则初始化
+        if (!basePage.isLoad) {
+            basePage.initData();
+        }
     }
 
     @Override

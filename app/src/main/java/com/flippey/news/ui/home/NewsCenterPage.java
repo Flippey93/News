@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
@@ -11,6 +12,7 @@ import com.flippey.news.bean.NewsCenterBean;
 import com.flippey.news.ui.act.MainActivity;
 import com.flippey.news.utils.GsonTools;
 import com.flippey.news.utils.HMAPI;
+import com.flippey.news.utils.SharedPreferenceTools;
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.OkHttpClient;
@@ -53,6 +55,15 @@ public class NewsCenterPage extends BasePage {
 
     @Override
     public void initData() {
+        System.out.println("加载数据.....");
+        String json = SharedPreferenceTools.getString(mContext, HMAPI.NEW_CENTER, "");
+        if (!TextUtils.isEmpty(json)) {
+            parseJson(json);
+        }
+        getData();
+    }
+
+    private void getData() {
         Request request = new Request.Builder().url(HMAPI.NEW_CENTER).build();
         OkHttpClient okHttpClient = new OkHttpClient();
         Call call = okHttpClient.newCall(request);
@@ -66,12 +77,14 @@ public class NewsCenterPage extends BasePage {
             public void onResponse(Response response) throws IOException {
                // System.out.println("获取成功");
                 String json = response.body().string();
+                SharedPreferenceTools.saveString(mContext, HMAPI.NEW_CENTER, json);
                 parseJson(json);
             }
         });
     }
 
     private void parseJson(String json) {
+        isLoad = true;
         NewsCenterBean newsCenterBean = GsonTools.changeGsonToBean(json, NewsCenterBean.class);
        // System.out.println(newsCenterBean.getRetcode()+"....");
         mMenuTitle.clear();
@@ -79,7 +92,6 @@ public class NewsCenterPage extends BasePage {
             mMenuTitle.add(dataBean.getTitle());
         }
         mHandler.sendEmptyMessage(0);
-
     }
 
 }
