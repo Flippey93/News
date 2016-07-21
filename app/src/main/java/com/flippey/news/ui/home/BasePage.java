@@ -10,13 +10,16 @@ import android.view.View;
 public abstract class BasePage {
     private View mView;
     public Context mContext;
-    public abstract View initView();
 
     public BasePage(Context context) {
         this.mContext = context;
-        mView = initView();
+        mView = initView(context);
     }
     public View getView() {
         return mView;
     }
+
+    public abstract View initView(Context context);
+
+    public abstract void initData();
 }

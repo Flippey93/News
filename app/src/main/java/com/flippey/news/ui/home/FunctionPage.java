@@ -1,7 +1,9 @@
 package com.flippey.news.ui.home;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.View;
+import android.widget.TextView;
 
 /**
  * @ Author      Flippey
@@ -13,7 +15,16 @@ public class FunctionPage extends BasePage {
     }
 
     @Override
-    public View initView() {
-        return null;
+    public View initView(Context context) {
+        TextView textView = new TextView(context);
+        textView.setText("functionpage");
+        textView.setTextColor(Color.RED);
+        return textView;
     }
+
+    @Override
+    public void initData() {
+
+    }
+
 }
