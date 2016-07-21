@@ -50,6 +50,7 @@ public class NewsCenterPage extends BasePage {
                     //mFrameLayout.removeAllViews();
                     //mFrameLayout.addView(mNewsPage.get(0).getView());
                     switchView(0);
+                    mTxt_title.setText(mMenuTitle.get(0));
                     break;
             }
         }
@@ -62,12 +63,13 @@ public class NewsCenterPage extends BasePage {
     public View initView(Context context) {
         View view = View.inflate(context, R.layout.news_center_frame, null);
         mFrameLayout = (FrameLayout) view.findViewById(R.id.news_center_fl);
+        initTitleBar(view);
         return view;
     }
 
     @Override
     public void initData() {
-        System.out.println("加载数据.....");
+        //System.out.println("加载数据.....");
         String json = SharedPreferenceTools.getString(mContext, HMAPI.NEW_CENTER, "");
         if (!TextUtils.isEmpty(json)) {
             parseJson(json);
@@ -103,12 +105,11 @@ public class NewsCenterPage extends BasePage {
         for (NewsCenterBean.DataBean dataBean : newsCenterBean.getData()) {
             mMenuTitle.add(dataBean.getTitle());
         }
-        mNewsPage.add(new NewsPage(mContext));
+        mNewsPage.add(new NewsPage(mContext,newsCenterBean.getData().get(0)));
         mNewsPage.add(new TopicPage(mContext));
         mNewsPage.add(new PicPage(mContext));
         mNewsPage.add(new ActionPage(mContext));
         mHandler.sendEmptyMessage(0);
-
     }
 
     public void switchView(int position) {
@@ -118,6 +119,7 @@ public class NewsCenterPage extends BasePage {
             case 0:
                 mFrameLayout.removeAllViews();
                 mFrameLayout.addView(basePage.getView());
+
                 break;
             case 1:
                 mFrameLayout.removeAllViews();
@@ -132,6 +134,7 @@ public class NewsCenterPage extends BasePage {
                 mFrameLayout.addView(basePage.getView());
                 break;
         }
+        mTxt_title.setText(mMenuTitle.get(position));
         if (!basePage.isLoad) {
             basePage.initData();
         }
