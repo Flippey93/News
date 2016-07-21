@@ -65,4 +65,9 @@ public class MainActivity extends SlidingFragmentActivity {
     public MenuFragment getMenuFragment() {
         return mMenuFragment;
     }
+
+    public HomeFragment getHomeFragment() {
+        HomeFragment homeFragment = (HomeFragment) getSupportFragmentManager().findFragmentByTag("Home");
+        return homeFragment;
+    }
 }

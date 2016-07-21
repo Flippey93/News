@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.flippey.news.R;
 import com.flippey.news.adapter.BasicAdapter;
+import com.flippey.news.ui.act.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,10 +64,13 @@ public class MenuFragment extends BaseFragment implements AdapterView.OnItemClic
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         switch (parent.getId()) {
-            case R.id.lv_menu_news_center:
+            case R.id.lv_menu_news_center:  //新闻中心
                 mNewsAdapter.setClickItemPosition(position);
+                ((MainActivity) mContext).getHomeFragment().getNewsCenterPage().switchView(position);
                 break;
         }
+        //侧滑菜单关闭
+        mSlidingMenu.toggle();
     }
 
     private class MenuAdapter extends BasicAdapter<String> {

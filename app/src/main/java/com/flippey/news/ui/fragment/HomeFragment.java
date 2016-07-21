@@ -99,6 +99,10 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
 
     }
 
+    public NewsCenterPage getNewsCenterPage() {
+        NewsCenterPage newsCenterPage = (NewsCenterPage) mHomePages.get(1);
+        return newsCenterPage;
+    }
 
     class HomeAdapter extends PagerAdapter {
         @Override

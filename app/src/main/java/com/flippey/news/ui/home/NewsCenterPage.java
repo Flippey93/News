@@ -1,15 +1,19 @@
 package com.flippey.news.ui.home;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.FrameLayout;
 
+import com.flippey.news.R;
 import com.flippey.news.bean.NewsCenterBean;
 import com.flippey.news.ui.act.MainActivity;
+import com.flippey.news.ui.news.ActionPage;
+import com.flippey.news.ui.news.NewsPage;
+import com.flippey.news.ui.news.PicPage;
+import com.flippey.news.ui.news.TopicPage;
 import com.flippey.news.utils.GsonTools;
 import com.flippey.news.utils.HMAPI;
 import com.flippey.news.utils.SharedPreferenceTools;
@@ -28,10 +32,13 @@ import java.util.List;
  * @ Creat Time  2016/7/19 10:12
  */
 public class NewsCenterPage extends BasePage {
+    
+    private FrameLayout mFrameLayout;
 
     public NewsCenterPage(Context context) {
         super(context);
     }
+
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -39,18 +46,23 @@ public class NewsCenterPage extends BasePage {
                 case 0:
                     MainActivity mainActivity = (MainActivity) mContext;
                     mainActivity.getMenuFragment().initMenu(mMenuTitle);
+                    //设置默认界面
+                    //mFrameLayout.removeAllViews();
+                    //mFrameLayout.addView(mNewsPage.get(0).getView());
+                    switchView(0);
                     break;
             }
         }
     };
     private List<String> mMenuTitle = new ArrayList<>();
+    private List<BasePage> mNewsPage = new ArrayList<>();
+    private int mCurrentIndex;
 
     @Override
     public View initView(Context context) {
-        TextView textView = new TextView(context);
-        textView.setText("newscenterpage");
-        textView.setTextColor(Color.RED);
-        return textView;
+        View view = View.inflate(context, R.layout.news_center_frame, null);
+        mFrameLayout = (FrameLayout) view.findViewById(R.id.news_center_fl);
+        return view;
     }
 
     @Override
@@ -70,12 +82,12 @@ public class NewsCenterPage extends BasePage {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Request request, IOException e) {
-               // System.out.println("服务器获取数据失败" + e);
+                // System.out.println("服务器获取数据失败" + e);
             }
 
             @Override
             public void onResponse(Response response) throws IOException {
-               // System.out.println("获取成功");
+                // System.out.println("获取成功");
                 String json = response.body().string();
                 SharedPreferenceTools.saveString(mContext, HMAPI.NEW_CENTER, json);
                 parseJson(json);
@@ -86,12 +98,42 @@ public class NewsCenterPage extends BasePage {
     private void parseJson(String json) {
         isLoad = true;
         NewsCenterBean newsCenterBean = GsonTools.changeGsonToBean(json, NewsCenterBean.class);
-       // System.out.println(newsCenterBean.getRetcode()+"....");
+        // System.out.println(newsCenterBean.getRetcode()+"....");
         mMenuTitle.clear();
         for (NewsCenterBean.DataBean dataBean : newsCenterBean.getData()) {
             mMenuTitle.add(dataBean.getTitle());
         }
+        mNewsPage.add(new NewsPage(mContext));
+        mNewsPage.add(new TopicPage(mContext));
+        mNewsPage.add(new PicPage(mContext));
+        mNewsPage.add(new ActionPage(mContext));
         mHandler.sendEmptyMessage(0);
+
     }
 
+    public void switchView(int position) {
+        mCurrentIndex = position;
+        BasePage basePage = mNewsPage.get(position);
+        switch (position) {
+            case 0:
+                mFrameLayout.removeAllViews();
+                mFrameLayout.addView(basePage.getView());
+                break;
+            case 1:
+                mFrameLayout.removeAllViews();
+                mFrameLayout.addView(basePage.getView());
+                break;
+            case 2:
+                mFrameLayout.removeAllViews();
+                mFrameLayout.addView(basePage.getView());
+                break;
+            case 3:
+                mFrameLayout.removeAllViews();
+                mFrameLayout.addView(basePage.getView());
+                break;
+        }
+        if (!basePage.isLoad) {
+            basePage.initData();
+        }
+    }
 }
