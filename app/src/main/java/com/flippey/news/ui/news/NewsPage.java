@@ -3,6 +3,7 @@ package com.flippey.news.ui.news;
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -20,6 +21,7 @@ import java.util.List;
  * @ Creat Time  2016/7/21 19:07
  */
 public class NewsPage extends BasePage {
+    private static final String TAG = "tag";
     private NewsCenterBean.DataBean mDataBean;
     private TabPageIndicator mIndicator;
     private ViewPager mPager;
@@ -57,7 +59,6 @@ public class NewsPage extends BasePage {
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
             }
-
             @Override
             public void onPageSelected(int position) {
                 mCurrentItem = position;
@@ -71,9 +72,7 @@ public class NewsPage extends BasePage {
                 if (!basePage.isLoad) {
                     basePage.initData();
                 }
-
             }
-
             @Override
             public void onPageScrollStateChanged(int state) {
 

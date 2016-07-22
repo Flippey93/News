@@ -46,9 +46,6 @@ public class NewsCenterPage extends BasePage {
                 case 0:
                     MainActivity mainActivity = (MainActivity) mContext;
                     mainActivity.getMenuFragment().initMenu(mMenuTitle);
-                    //设置默认界面
-                    //mFrameLayout.removeAllViews();
-                    //mFrameLayout.addView(mNewsPage.get(0).getView());
                     switchView(0);
                     mTxt_title.setText(mMenuTitle.get(0));
                     break;
@@ -119,7 +116,6 @@ public class NewsCenterPage extends BasePage {
             case 0:
                 mFrameLayout.removeAllViews();
                 mFrameLayout.addView(basePage.getView());
-
                 break;
             case 1:
                 mFrameLayout.removeAllViews();
@@ -135,8 +131,10 @@ public class NewsCenterPage extends BasePage {
                 break;
         }
         mTxt_title.setText(mMenuTitle.get(position));
+
         if (!basePage.isLoad) {
             basePage.initData();
         }
+
     }
 }

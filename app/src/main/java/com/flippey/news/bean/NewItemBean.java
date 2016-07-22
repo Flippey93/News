@@ -96,6 +96,7 @@ public class NewItemBean {
             private String title;
             private String type;
             private String url;
+            public boolean isRead;
 
             public boolean isComment() {
                 return comment;
