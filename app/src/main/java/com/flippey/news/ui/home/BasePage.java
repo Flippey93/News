@@ -51,4 +51,8 @@ public abstract class BasePage {
             }
         });
     }
+
+    public void onResume() {
+
+    }
 }

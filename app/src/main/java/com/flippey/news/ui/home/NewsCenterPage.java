@@ -135,6 +135,12 @@ public class NewsCenterPage extends BasePage {
         if (!basePage.isLoad) {
             basePage.initData();
         }
+    }
 
+    public void onResume() {
+        super.onResume();
+        if (mNewsPage != null && mNewsPage.size() > 0) {
+            mNewsPage.get(mCurrentIndex).onResume();
+        }
     }
 }

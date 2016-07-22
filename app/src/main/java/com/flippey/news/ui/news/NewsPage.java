@@ -3,7 +3,6 @@ package com.flippey.news.ui.news;
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -110,6 +109,15 @@ public class NewsPage extends BasePage {
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
             container.removeView((View) object);
+        }
+    }
+
+    public void onResume() {
+        super.onResume();
+        if (mCurrentItem == 0) {//让侧滑菜单可以滑动显示
+            mSlidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+        } else {//让侧滑菜单禁止滑动显示
+            mSlidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_NONE);
         }
     }
 }

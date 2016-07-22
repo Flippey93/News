@@ -71,7 +71,9 @@ public class HomeFragment extends BaseFragment implements ViewPager.OnPageChange
             case R.id.rb_news_center:   //新闻中心
                 mViewPager.setCurrentItem(1, false);
                 mSlidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+                //给菜单界面设置标记
                 menuFragment.setMeunType(MenuFragment.NEWSCENTER);
+                mHomePages.get(1).onResume();
                 break;
             case R.id.rb_setting:    //设置中心禁止侧滑
                 mViewPager.setCurrentItem(4, false);
