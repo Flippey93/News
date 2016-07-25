@@ -20,6 +20,7 @@ public abstract class BasePage {
     public Context mContext;
     public boolean isLoad = false;
     public TextView mTxt_title;
+    public ImageButton mImgbtnRi;
 
     public BasePage(Context context) {
         this.mContext = context;
@@ -50,6 +51,8 @@ public abstract class BasePage {
                 mSlidingMenu.toggle();
             }
         });
+        mImgbtnRi = (ImageButton) view.findViewById(R.id.btn_right);
+
     }
 
     public void onResume() {

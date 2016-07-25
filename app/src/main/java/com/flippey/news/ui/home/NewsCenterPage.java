@@ -32,8 +32,9 @@ import java.util.List;
  * @ Creat Time  2016/7/19 10:12
  */
 public class NewsCenterPage extends BasePage {
-    
+
     private FrameLayout mFrameLayout;
+    private NewsCenterBean mNewsCenterBean;
 
     public NewsCenterPage(Context context) {
         super(context);
@@ -44,6 +45,10 @@ public class NewsCenterPage extends BasePage {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 0:
+                    mNewsPage.add(new NewsPage(mContext, mNewsCenterBean.getData().get(0)));
+                    mNewsPage.add(new TopicPage(mContext));
+                    mNewsPage.add(new PicPage(mContext));
+                    mNewsPage.add(new ActionPage(mContext));
                     MainActivity mainActivity = (MainActivity) mContext;
                     mainActivity.getMenuFragment().initMenu(mMenuTitle);
                     switchView(0);
@@ -96,22 +101,19 @@ public class NewsCenterPage extends BasePage {
 
     private void parseJson(String json) {
         isLoad = true;
-        NewsCenterBean newsCenterBean = GsonTools.changeGsonToBean(json, NewsCenterBean.class);
+        mNewsCenterBean = GsonTools.changeGsonToBean(json, NewsCenterBean.class);
         // System.out.println(newsCenterBean.getRetcode()+"....");
         mMenuTitle.clear();
-        for (NewsCenterBean.DataBean dataBean : newsCenterBean.getData()) {
+        for (NewsCenterBean.DataBean dataBean : mNewsCenterBean.getData()) {
             mMenuTitle.add(dataBean.getTitle());
         }
-        mNewsPage.add(new NewsPage(mContext,newsCenterBean.getData().get(0)));
-        mNewsPage.add(new TopicPage(mContext));
-        mNewsPage.add(new PicPage(mContext));
-        mNewsPage.add(new ActionPage(mContext));
+
         mHandler.sendEmptyMessage(0);
     }
 
     public void switchView(int position) {
         mCurrentIndex = position;
-        BasePage basePage = mNewsPage.get(position);
+        final BasePage basePage = mNewsPage.get(position);
         switch (position) {
             case 0:
                 mFrameLayout.removeAllViews();
@@ -124,6 +126,23 @@ public class NewsCenterPage extends BasePage {
             case 2:
                 mFrameLayout.removeAllViews();
                 mFrameLayout.addView(basePage.getView());
+                mImgbtnRi.setVisibility(View.VISIBLE);
+                mImgbtnRi.setImageResource(R.drawable.icon_pic_grid_type);
+                mImgbtnRi.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        PicPage picPage = (PicPage) basePage;
+                        if (picPage.isGrid) {
+                            picPage.isGrid = false;
+                            picPage.changeView();
+                            mImgbtnRi.setImageResource(R.drawable.icon_pic_list_type);
+                        } else {
+                            picPage.isGrid = true;
+                            picPage.changeView();
+                            mImgbtnRi.setImageResource(R.drawable.icon_pic_grid_type);
+                        }
+                    }
+                });
                 break;
             case 3:
                 mFrameLayout.removeAllViews();
@@ -131,7 +150,6 @@ public class NewsCenterPage extends BasePage {
                 break;
         }
         mTxt_title.setText(mMenuTitle.get(position));
-
         if (!basePage.isLoad) {
             basePage.initData();
         }

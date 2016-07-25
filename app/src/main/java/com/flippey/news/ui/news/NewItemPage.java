@@ -1,6 +1,7 @@
 package com.flippey.news.ui.news;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 import com.flippey.news.R;
 import com.flippey.news.adapter.NewItemAdapter;
 import com.flippey.news.bean.NewItemBean;
+import com.flippey.news.ui.act.DetailActivity;
 import com.flippey.news.ui.home.BasePage;
 import com.flippey.news.ui.view.RollViewpager;
 import com.flippey.news.utils.DensityUtil;
@@ -150,6 +152,10 @@ public class NewItemPage extends BasePage {
                     newsBean.isRead = true;
                     mNewItemAdapter.notifyDataSetChanged();
                 }
+                //TODO 进入详情页
+                Intent intent = new Intent(mContext, DetailActivity.class);
+                intent.putExtra("url", newsBean.getUrl());
+                mContext.startActivity(intent);
             }
         });
         mTopView = View.inflate(context, R.layout.layout_roll_view, null);
